@@ -1,0 +1,15 @@
+FROM osixia/openldap:latest
+
+# Variables de entorno para ldap
+ENV LDAP_ORGANISATION="MiRestaurante"
+ENV LDAP_DOMAIN="begona.work.gd"
+ENV LDAPADMIN_PASSWORD="admin"
+
+# Exponer los puertos de ldap
+EXPOSE 389 636
+
+# Los volumenes es para mantener los datos despues de reinicios o actualizaciones del contenedor aunque yo no lo usare
+# VOLUME ["/var/lib/ldap", "/etc/ldap/sldap.d"]
+
+# Comando para inicializar open ldap
+CMD ["/container/tool/run"]

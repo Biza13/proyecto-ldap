@@ -35,7 +35,9 @@ RUN a2enmod ssl && \
     a2ensite default-ssl.conf && \
     a2enmod rewrite
 
-RUN apachectl restart   
+# dar permisos a las carpetas 
+RUN chown -R www-data:www-data /var/www/html/ProyectoEnSASS-Restaurante && \
+    chmod -R 755 /var/www/html/ProyectoEnSASS-Restaurante
 
 # moverse a la carpeta de la pagina e instalar sass
 RUN cd /var/www/html/ProyectoEnSASS-Restaurante && \

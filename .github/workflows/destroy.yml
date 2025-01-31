@@ -25,13 +25,13 @@ jobs:
     #descargar tfstate del s3
     - name: Descargar tfstate desde el bucket de S3
       run: aws s3 cp s3://${{ secrets.AWS_S3_BUCKET }}/terraform.tfstate terraform.tfstate --region us-east-1
-      working-directory: ./ArchivosTf
+      working-directory: ./archivosTf
 
     #eliminar imagenes del ecr
     - name: Eliminar imágenes específicas en ECR
       run: |
-       aws ecr batch-delete-image --repository-name ${{ secrets.AWS_ECR }} --image-ids imageTag=img-apachenodenpm --region us-east-1
-       aws ecr batch-delete-image --repository-name ${{ secrets.AWS_ECR }} --image-ids imageTag=img-jsonserver --region us-east-1
+       aws ecr batch-delete-image --repository-name ${{ secrets.AWS_ECR }} --image-ids imageTag=img-apache --region us-east-1
+       aws ecr batch-delete-image --repository-name ${{ secrets.AWS_ECR }} --image-ids imageTag=img-ldap --region us-east-1
 
     #eliminar el tfstate del bucket
     - name: Eliminar los archivos en S3
@@ -41,12 +41,12 @@ jobs:
     #iniciar terraform y destruir
     - name: Terraform Init
       run: terraform init  
-      working-directory: ./ArchivosTf       
+      working-directory: ./archivosTf       
 
     - name: Terraform Destroy
       run: terraform destroy -auto-approve
-      working-directory: ./ArchivosTf
+      working-directory: ./archivosTf
 
     - name: Eliminar el archivo terraform.tfstate del repositorio
       run: rm terraform.tfstate 
-      working-directory: ./ArchivosTf
+      working-directory: ./archivosTf

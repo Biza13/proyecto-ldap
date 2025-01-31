@@ -106,8 +106,9 @@ jobs:
             sudo systemctl restart docker
             aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ needs.despliegue.outputs.ecr_repository_uri_url }}
             docker run -d --name apache-container -p 443:443 -p 80:80 ${{ needs.despliegue.outputs.ecr_repository_uri_url }}:img-apache
-            docker run -d --name ldap-container -p 389:389 -p 636:636 ${{ needs.despliegue.outputs.ecr_repository_uri_url }}:img-ldap
+            docker run -e LDAPADMIN_PASSWORD="admin" -d --name ldap-container -p 389:389 -p 636:636 ${{ needs.despliegue.outputs.ecr_repository_uri_url }}:img-ldap
           EOF
+       # Le añado la variable de entorno de la contraseña de administradora en el comando del build para el contenedor de ldap
 
       - name: Borrar archivo private key
         run: |

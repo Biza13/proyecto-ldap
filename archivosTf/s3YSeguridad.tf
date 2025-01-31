@@ -27,7 +27,14 @@ resource "aws_security_group" "security" {
   to_port = 389
   protocol = "tcp"
   cidr_blocks = ["0.0.0.0/0"]
-}
+  }
+# este es el de ldap
+  ingress {
+  from_port = 3636
+  to_port = 636
+  protocol = "tcp"
+  cidr_blocks = ["0.0.0.0/0"]
+  }
 
   ingress {
     from_port   = 443

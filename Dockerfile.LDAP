@@ -3,7 +3,8 @@ FROM osixia/openldap:latest
 # Variables de entorno para ldap
 ENV LDAP_ORGANISATION="MiRestaurante"
 ENV LDAP_DOMAIN="begona.work.gd"
-ENV LDAPADMIN_PASSWORD="admin"
+# comento esta linea porque me da erro me dice que no ponga informacion sensible
+# ENV LDAPADMIN_PASSWORD="admin"
 
 # Exponer los puertos de ldap
 EXPOSE 389 636

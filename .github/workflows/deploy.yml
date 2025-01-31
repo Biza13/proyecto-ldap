@@ -41,41 +41,41 @@ jobs:
       - name: Terraform init
         id: init
         run: terraform init
-        working-directory: ./ArchivosTf
+        working-directory: ./archivosTf
        
       - name: Plan Terraform
         run: terraform plan
-        working-directory: ./ArchivosTf
+        working-directory: ./archivosTf
   
       - name: Terraform Apply
         run: terraform apply -auto-approve
-        working-directory: ./ArchivosTf
+        working-directory: ./archivosTf
 
       #subir archivos al bucket para luego pasarlos a los contenedores
       - name: Subir tfstate al bucket de S3
         run: aws s3 cp terraform.tfstate s3://${{ secrets.AWS_S3_BUCKET }}/ --region us-east-1 
-        working-directory: ./ArchivosTf
+        working-directory: ./archivosTf
 
       # Capturar los outputs de Terraform y hacerlos como outputs del job
       - name: Capturar output de Terraform (Bucket)
         id: capturar_bucket
         run: echo "bucket_nombre=$(terraform output -raw s3)" >> "$GITHUB_OUTPUT"
-        working-directory: ./ArchivosTf
+        working-directory: ./archivosTf
 
       - name: Capturar URI del repositorio ECR
         id: capturar_ecr_uri_url
         run: echo "ecr_repository_uri_url=$(terraform output -raw ecr_repository_uri_url)" >> "$GITHUB_OUTPUT"
-        working-directory: ./ArchivosTf
+        working-directory: ./archivosTf
 
       - name: Capturar nombre del repositorio ECR
         id: capturar_ecr_nombre
         run: echo "ecr_nombre_repositorio=$(terraform output -raw ecr_nombre_repositorio)" >> "$GITHUB_OUTPUT"
-        working-directory: ./ArchivosTf 
+        working-directory: ./archivosTf 
 
       - name: Capturar ip de la EC2
         id: capturar_ip_ec2
         run: echo "instance_public_ip=$(terraform output -raw instance_public_ip)" >> "$GITHUB_OUTPUT"
-        working-directory: ./ArchivosTf   
+        working-directory: ./archivosTf   
 
   crear-contenedor:
     runs-on: ubuntu-latest

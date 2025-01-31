@@ -6,9 +6,6 @@ ENV LDAP_DOMAIN="begona.work.gd"
 # comento esta linea porque me da erro me dice que no ponga informacion sensible
 # ENV LDAPADMIN_PASSWORD="admin"
 
-# Exponer los puertos de ldap
-EXPOSE 389 636
-
 # Los volumenes es para mantener los datos despues de reinicios o actualizaciones del contenedor aunque yo no lo usare
 # VOLUME ["/var/lib/ldap", "/etc/ldap/sldap.d"]
 

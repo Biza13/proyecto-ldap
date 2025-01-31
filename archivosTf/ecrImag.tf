@@ -21,10 +21,6 @@ resource "null_resource" "crear-y-subir-imagenes" {
       docker tag img-ldap:latest ${aws_ecr_repository.repositorio_ecr.repository_url}:img-ldap
       docker push ${aws_ecr_repository.repositorio_ecr.repository_url}:img-ldap
 
-      docker build --no-cache -t img-apache -f ../Dockerfile ../
-      docker tag img-apache:latest ${aws_ecr_repository.repositorio_ecr.repository_url}:img-apache
-      docker push ${aws_ecr_repository.repositorio_ecr.repository_url}:img-apache
-
     EOT
   }
 }
@@ -33,7 +29,7 @@ resource "null_resource" "crear-y-subir-imagenes" {
 docker tag img-apache:latest ${aws_ecr_repository.repositorio_ecr.repository_url}:img-apache
 docker push ${aws_ecr_repository.repositorio_ecr.repository_url}:img-apache */
 
-//esta seria la imagen del dockerfile de ldap
+//esta seria la imagen del dockerfile de ldap que no funciona
 /* docker build --no-cache -t img-ldap -f ./Dockerfile.ldap .
 docker tag img-ldap:latest ${aws_ecr_repository.repositorio_ecr.repository_url}:img-ldap
 docker push ${aws_ecr_repository.repositorio_ecr.repository_url}:img-ldap */

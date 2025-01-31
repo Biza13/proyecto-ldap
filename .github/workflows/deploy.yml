@@ -99,11 +99,10 @@ jobs:
           chmod 600 deploy_key.pem
     
       - name: entrar en la instancia y logearme en aws
-        #sudo usermod -aG docker ubuntu
-         #newgrp docker
         run: |
           ssh -i deploy_key.pem -o StrictHostKeyChecking=no ubuntu@${{ needs.despliegue.outputs.instance_public_ip }} << 'EOF'
-            
+            sudo usermod -aG docker ubuntu
+            newgrp docker
             sudo systemctl restart docker
             aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ needs.despliegue.outputs.ecr_repository_uri_url }}
             docker run -d --name apache-container -p 443:443 -p 80:80 ${{ needs.despliegue.outputs.ecr_repository_uri_url }}:img-apache

@@ -17,9 +17,13 @@ resource "null_resource" "crear-y-subir-imagenes" {
 
       aws ecr get-login-password --region ${var.region} | docker login --username AWS --password-stdin ${aws_ecr_repository.repositorio_ecr.repository_url}
 
-      docker build --no-cache -t img-ldap -f ./Dockerfile.LDAP .
+      docker build --no-cache -t img-ldap -f ../Dockerfile.ldap ../
       docker tag img-ldap:latest ${aws_ecr_repository.repositorio_ecr.repository_url}:img-ldap
       docker push ${aws_ecr_repository.repositorio_ecr.repository_url}:img-ldap
+
+      docker build --no-cache -t img-apache -f ../Dockerfile ../
+      docker tag img-apache:latest ${aws_ecr_repository.repositorio_ecr.repository_url}:img-apache
+      docker push ${aws_ecr_repository.repositorio_ecr.repository_url}:img-apache
 
     EOT
   }
@@ -30,7 +34,9 @@ docker tag img-apache:latest ${aws_ecr_repository.repositorio_ecr.repository_url
 docker push ${aws_ecr_repository.repositorio_ecr.repository_url}:img-apache */
 
 //esta seria la imagen del dockerfile de ldap
-/*  */
+/* docker build --no-cache -t img-ldap -f ./Dockerfile.ldap .
+docker tag img-ldap:latest ${aws_ecr_repository.repositorio_ecr.repository_url}:img-ldap
+docker push ${aws_ecr_repository.repositorio_ecr.repository_url}:img-ldap */
 
 # Referencia al rol IAM existente en mi cuenta de aws que es (LabRole) usando su ARN
 data "aws_iam_role" "labrole" {

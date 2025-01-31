@@ -12,4 +12,4 @@ EXPOSE 389 636
 # VOLUME ["/var/lib/ldap", "/etc/ldap/sldap.d"]
 
 # Comando para inicializar open ldap
-CMD ["/container/tool/run"]
+# CMD ["/container/tool/run"]

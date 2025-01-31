@@ -10,4 +10,4 @@ cidrSubredPrivada = "10.0.103.0/24"
 
 s3 = "cubo-s3-begona"
 
-ecr = "repositorio-apache"
+ecr = "repositorio-bego"

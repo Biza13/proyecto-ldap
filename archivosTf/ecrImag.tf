@@ -17,7 +17,7 @@ resource "null_resource" "crear-y-subir-imagenes" {
 
       aws ecr get-login-password --region ${var.region} | docker login --username AWS --password-stdin ${aws_ecr_repository.repositorio_ecr.repository_url}
 
-      docker build --no-cache -t img-apache -f ./Dockerfile .
+      docker build --no-cache -t img-apache -f ../Dockerfile ../
       docker tag img-apache:latest ${aws_ecr_repository.repositorio_ecr.repository_url}:img-apache
       docker push ${aws_ecr_repository.repositorio_ecr.repository_url}:img-apache
 

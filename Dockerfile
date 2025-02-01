@@ -8,6 +8,8 @@ RUN apt update -y && \
     apt install -y nodejs && \
     # Instalar npm
     apt install -y npm && \
+    #instalar sass globalmente
+    npm install -g sass && \
     # Instalar nano
     apt install nano -y && \
     #instalar openssl

@@ -8,7 +8,7 @@ RUN apt update -y && \
     apt install -y nodejs && \
     # Instalar npm
     apt install -y npm && \
-    #instalar sass globalmente
+    #instalar sass globalmente (creo que no hace falta)
     npm install -g sass && \
     # Instalar nano
     apt install nano -y && \

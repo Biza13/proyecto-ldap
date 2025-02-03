@@ -9,6 +9,11 @@ ENV LDAP_DOMAIN="begona.work.gd"
 # Deshabilitar el repositorio buster-backports para evitar el error
 RUN sed -i '/buster-backports/d' /etc/apt/sources.list
 
+# Copiar los certificados al contenedor
+COPY certificado/certificate.crt /etc/ssl/certs/
+COPY certificado/private.key /etc/ssl/private/
+COPY certificado/ca_bundle.crt /etc/ssl/certs/
+
 RUN apt -y update && \
     apt install -y ldap-utils && \
     # Limpiar los archivos de cache de apt para reducir el tamaño de la imagen

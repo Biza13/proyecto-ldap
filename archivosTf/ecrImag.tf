@@ -30,9 +30,9 @@ docker tag img-apache:latest ${aws_ecr_repository.repositorio_ecr.repository_url
 docker push ${aws_ecr_repository.repositorio_ecr.repository_url}:img-apache */
 
 //esta seria la imagen del dockerfile de ldap que no funciona
-/* docker build --no-cache -t img-ldap -f ./Dockerfile.ldap .
-docker tag img-ldap:latest ${aws_ecr_repository.repositorio_ecr.repository_url}:img-ldap
-docker push ${aws_ecr_repository.repositorio_ecr.repository_url}:img-ldap */
+/* docker build --no-cache -t img-ldap -f ../Dockerfile.ldap ../
+      docker tag img-ldap:latest ${aws_ecr_repository.repositorio_ecr.repository_url}:img-ldap
+      docker push ${aws_ecr_repository.repositorio_ecr.repository_url}:img-ldap */
 
 # Referencia al rol IAM existente en mi cuenta de aws que es (LabRole) usando su ARN
 data "aws_iam_role" "labrole" {

@@ -32,9 +32,10 @@ COPY ./000-default.conf /etc/apache2/sites-available/000-default.conf
 
 # Esto (a2ensite) es para habilitar el archivo default-ssl.conf, aunque por defecto viene habilitado
 
-# habilitar SSL y el proxy (modulos)
+# habilitar SSL y el ldap  (modulos)
 RUN a2enmod ssl && \
     a2ensite default-ssl.conf && \
+    a2enmod authnz_ldap ldap && \
     a2enmod rewrite
 
 # dar permisos a las carpetas 

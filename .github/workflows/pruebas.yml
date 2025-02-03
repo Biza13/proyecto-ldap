@@ -97,6 +97,9 @@ jobs:
         run: |
           echo "${{ secrets.DEPLOYER_KEY }}" > deploy_key.pem
           chmod 600 deploy_key.pem
+
+      - name: subir dockerfile a la instancia
+        run: rsync -avz -e "ssh -i deploy_key.pem -o StrictHostKeyChecking=no" ./Dockerfile.LDAP ubuntu@${{ needs.despliegue.outputs.instance_public_ip }}:/home/ubuntu/    
     
       - name: entrar en la instancia y logearme en aws
         run: |
@@ -106,11 +109,11 @@ jobs:
             sudo systemctl restart docker
             aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ needs.despliegue.outputs.ecr_repository_uri_url }}
             docker run -d --name apache-container -p 443:443 -p 80:80 ${{ needs.despliegue.outputs.ecr_repository_uri_url }}:img-apache
+            docker build -t ldap-container -f ./Dockerfile.LDAP .
+            docker run -d -p 636:636 -e LDAP_ADMIN_PASSWORD="admin" ldap-container
           EOF
         #esto va dentro del EOF
         #docker run -e LDAP_ORGANISATION="Restaurante" -e LDAP_DOMAIN="begona.work.gd" -e LDAP_ADMIN_PASSWORD="admin" -d --name ldap-container -p 389:389 -p 636:636 osixia/openldap:latest
-          
-       # Le añado la variable de entorno de la contraseña de administradora en el comando del build para el contenedor de ldap
 
       - name: Borrar archivo private key
         run: |

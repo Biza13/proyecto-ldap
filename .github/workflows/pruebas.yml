@@ -115,12 +115,10 @@ jobs:
             docker run -d --network my-network --name apache-container -p 443:443 -p 80:80 ${{ needs.despliegue.outputs.ecr_repository_uri_url }}:img-apache
             docker build -t ldap-container -f ./Dockerfile.LDAP .
             docker run -d --network my-network --name ldap-container -p 636:636 -p 389:389 -e LDAP_ADMIN_PASSWORD="admin" ldap-container
-            docker exec ldap-container ldapadd -x -D "cn=admin,dc=begona,dc=work,dc=gd" -w "admin" -f empleados.ldif 
-            docker exec ldap-container ldapadd -x -D "cn=admin,dc=begona,dc=work,dc=gd" -w "admin" -f usuario.ldif 
           EOF
         #esto va dentro del EOF
-        #docker run -e LDAP_ORGANISATION="Restaurante" -e LDAP_DOMAIN="begona.work.gd" -e LDAP_ADMIN_PASSWORD="admin" -d --name ldap-container -p 389:389 -p 636:636 osixia/openldap:latest
-
+        #docker exec ldap-container ldapadd -x -D "cn=admin,dc=begona,dc=work,dc=gd" -w "admin" -f empleados.ldif 
+        #docker exec ldap-container ldapadd -x -D "cn=admin,dc=begona,dc=work,dc=gd" -w "admin" -f usuario.ldif 
       - name: Borrar archivo private key
         run: |
           rm -f deploy_key.pem

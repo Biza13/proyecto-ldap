@@ -11,6 +11,7 @@ RUN sed -i '/buster-backports/d' /etc/apt/sources.list
 
 RUN apt -y update && \
     apt install -y ldap-utils && \
+    apt install nano && \
     # Limpiar los archivos de cache de apt para reducir el tamaño de la imagen
     apt clean
 

@@ -12,6 +12,8 @@ RUN apt update -y && \
     npm install -g sass && \
     # Instalar nano
     apt install nano -y && \
+    #instalar ldap utils
+    apt install ldap-utils && \
     #instalar openssl
     apt install -y openssl && \
     # Limpiar los archivos de cache de apt para reducir el tamaño de la imagen

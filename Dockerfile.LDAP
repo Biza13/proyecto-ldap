@@ -6,6 +6,10 @@ ENV LDAP_DOMAIN="begona.work.gd"
 # comento esta linea porque me da erro me dice que no ponga informacion sensible
 # ENV LDAP_ADMIN_PASSWORD="admin"
 
+#copiar los archivos ldif al contenedor
+COPY ./empleados.ldif ./empleados.ldif
+COPY ./usuario.ldif ./usuario.ldif
+
 # Deshabilitar el repositorio buster-backports para evitar el error
 RUN sed -i '/buster-backports/d' /etc/apt/sources.list
 

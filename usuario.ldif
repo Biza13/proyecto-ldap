@@ -1,10 +1,6 @@
-dn: uid=Begoña,ou=usuarios,dc=begona,dc=work,dc=gd
+dn: uid=Begoña,ou=empleados,dc=begona,dc=work,dc=gd
 objectClass: inetOrgPerson
 uid: Begoña
 cn: Begoña
 sn: Cabo
-givenName: Begoña
-displayName: Begoña
 userPassword: {SSHA}X1Z0qzq0pqfSOeF1Vr2IS0FqIkQ+KGl5tQbE8Xth8hA=
-mail: begona@begona.work.gd
-ou: usuarios

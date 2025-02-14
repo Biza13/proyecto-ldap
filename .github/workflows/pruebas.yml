@@ -103,32 +103,24 @@ jobs:
           rsync -avz -e "ssh -i deploy_key.pem -o StrictHostKeyChecking=no" ./Dockerfile.LDAP ubuntu@${{ needs.despliegue.outputs.instance_public_ip }}:/home/ubuntu/    
           rsync -avz -e "ssh -i deploy_key.pem -o StrictHostKeyChecking=no" ./empleados.ldif ubuntu@${{ needs.despliegue.outputs.instance_public_ip }}:/home/ubuntu/
           rsync -avz -e "ssh -i deploy_key.pem -o StrictHostKeyChecking=no" ./usuario.ldif ubuntu@${{ needs.despliegue.outputs.instance_public_ip }}:/home/ubuntu/
+          rsync -avz -e "ssh -i deploy_key.pem -o StrictHostKeyChecking=no" ./instalar-docker.sh ubuntu@${{ needs.despliegue.outputs.instance_public_ip }}:/home/ubuntu/
     
       - name: entrar en la instancia y logearme en aws
         run: |
           ssh -i deploy_key.pem -o StrictHostKeyChecking=no ubuntu@${{ needs.despliegue.outputs.instance_public_ip }} << 'EOF'
-            sudo apt update -y
-            sudo apt install -y docker.io
-            sudo systemctl enable docker
-            sudo systemctl start docker
-            sudo usermod -aG docker ubuntu
-            newgrp docker
-            sudo systemctl restart docker
-            sudo apt install awscli -y
-            sudo apt install  git -y
-            sudo apt install wget -y
-            sudo curl -L "https://github.com/docker/compose/releases/download/$(curl -s https://api.github.com/repos/docker/compose/releases/latest | jq -r .tag_name)/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-            sudo chmod +x /usr/local/bin/docker-compose
-            docker network create my-network
+            chmod +x /home/ubuntu/instalar-docker.sh
+            /home/ubuntu/mi_script.sh
             aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ needs.despliegue.outputs.ecr_repository_uri_url }}
             docker build -t ldap-img -f ./Dockerfile.LDAP .
             docker run -d --network my-network --name ldap-container -p 636:636 -p 389:389 -e LDAP_ADMIN_PASSWORD="admin" ldap-img
-            sleep 10
             docker run -d --network my-network --name apache-container -p 443:443 -p 80:80 ${{ needs.despliegue.outputs.ecr_repository_uri_url }}:img-apache
           EOF
         #esto va dentro del EOF
-        #docker exec ldap-container ldapadd -x -D "cn=admin,dc=begona,dc=work,dc=gd" -w "admin" -f empleados.ldif 
-        #docker exec ldap-container ldapadd -x -D "cn=admin,dc=begona,dc=work,dc=gd" -w "admin" -f usuario.ldif 
+        #sudo usermod -aG docker ubuntu
+        #newgrp docker
+        #sudo systemctl restart docker
+        #docker network create my-network
+        
       - name: Borrar archivo private key
         run: |
           rm -f deploy_key.pem

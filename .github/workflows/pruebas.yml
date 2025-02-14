@@ -104,6 +104,7 @@ jobs:
           rsync -avz -e "ssh -i deploy_key.pem -o StrictHostKeyChecking=no" ./empleados.ldif ubuntu@${{ needs.despliegue.outputs.instance_public_ip }}:/home/ubuntu/
           rsync -avz -e "ssh -i deploy_key.pem -o StrictHostKeyChecking=no" ./usuario.ldif ubuntu@${{ needs.despliegue.outputs.instance_public_ip }}:/home/ubuntu/
           rsync -avz -e "ssh -i deploy_key.pem -o StrictHostKeyChecking=no" ./instalar-docker.sh ubuntu@${{ needs.despliegue.outputs.instance_public_ip }}:/home/ubuntu/
+          rsync -avz -e "ssh -i deploy_key.pem -o StrictHostKeyChecking=no" ./add-ldif.sh ubuntu@${{ needs.despliegue.outputs.instance_public_ip }}:/home/ubuntu/
     
       - name: entrar en la instancia y logearme en aws
         run: |

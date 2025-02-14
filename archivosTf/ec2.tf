@@ -31,7 +31,7 @@ resource "aws_instance" "instancia" {
     Name = "instancia"
   }
 
-  user_data = file("../instalar-docker.sh")
+  #user_data = file("../instalar-docker.sh")
 }
 
 /* resource "aws_eip" "ip-elastica" {

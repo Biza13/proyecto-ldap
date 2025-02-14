@@ -11,9 +11,10 @@ COPY ./empleados.ldif ./empleados.ldif
 COPY ./usuario.ldif ./usuario.ldif
 
 # Copiar el script de inicialización al contenedor y en ese directorio se ejecuta el script al iniciar el contenedor
-COPY ./init-ldap.sh /docker-entrypoint.d/
+COPY ./add.ldif.sh /docker-entrypoint.d/
 
-RUN apt -y update && \
+RUN sed -i '/buster-backports/d' /etc/apt/sources.list && \
+    apt -y update && \
     apt install -y ldap-utils && \
     apt install nano && \
     # Limpiar los archivos de cache de apt para reducir el tamaño de la imagen

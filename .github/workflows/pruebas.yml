@@ -107,9 +107,18 @@ jobs:
       - name: entrar en la instancia y logearme en aws
         run: |
           ssh -i deploy_key.pem -o StrictHostKeyChecking=no ubuntu@${{ needs.despliegue.outputs.instance_public_ip }} << 'EOF'
+            sudo apt update -y
+            sudo apt install -y docker.io
+            sudo systemctl enable docker
+            sudo systemctl start docker
             sudo usermod -aG docker ubuntu
             newgrp docker
             sudo systemctl restart docker
+            sudo apt install awscli -y
+            sudo apt install  git -y
+            sudo apt install wget -y
+            sudo curl -L "https://github.com/docker/compose/releases/download/$(curl -s https://api.github.com/repos/docker/compose/releases/latest | jq -r .tag_name)/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+            sudo chmod +x /usr/local/bin/docker-compose
             docker network create my-network
             aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ needs.despliegue.outputs.ecr_repository_uri_url }}
             docker build -t ldap-img -f ./Dockerfile.LDAP .

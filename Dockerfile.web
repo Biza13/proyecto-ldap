@@ -1,10 +1,8 @@
 FROM ubuntu/apache2:latest
 
 RUN apt update -y && \
-#instalar ldap utils
-apt install ldap-utils && \
-#instalar openssl
-apt install -y openssl && \
+#instalar ldap utils y open ssl
+apt install -y ldap-utils openssl && \
 # Limpiar los archivos de cache de apt para reducir el tamaño de la imagen
 apt clean
 
@@ -32,11 +30,6 @@ RUN a2enmod ssl && \
 # dar permisos a las carpetas 
 RUN chown -R www-data:www-data /var/www/html/ProyectoEnSASS-Restaurante && \
     chmod -R 755 /var/www/html/ProyectoEnSASS-Restaurante
-
-# moverse a la carpeta de la pagina e instalar sass
-RUN cd /var/www/html/ProyectoEnSASS-Restaurante && \
-    npm init -y && \
-    npm install -D sass
 
 # Expone el puerto 443 para Apache que es el https y el 3000 para el json y el 80 para la redireccion
 EXPOSE 443

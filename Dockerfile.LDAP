@@ -10,8 +10,8 @@ ENV LDAP_DOMAIN="begona.work.gd"
 COPY ./empleados.ldif ./empleados.ldif
 COPY ./usuario.ldif ./usuario.ldif
 
-# Deshabilitar el repositorio buster-backports para evitar el error
-RUN sed -i '/buster-backports/d' /etc/apt/sources.list
+# Copiar el script de inicialización al contenedor y en ese directorio se ejecuta el script al iniciar el contenedor
+COPY ./init-ldap.sh /docker-entrypoint.d/
 
 RUN apt -y update && \
     apt install -y ldap-utils && \
@@ -19,11 +19,5 @@ RUN apt -y update && \
     # Limpiar los archivos de cache de apt para reducir el tamaño de la imagen
     apt clean
 
-# Los volumenes es para mantener los datos despues de reinicios o actualizaciones del contenedor aunque yo no lo usare
-# VOLUME ["/var/lib/ldap", "/etc/ldap/sldap.d"]
-
 EXPOSE 636
 EXPOSE 389
-
-# Comando para inicializar open ldap
-# CMD ["/container/tool/run"]

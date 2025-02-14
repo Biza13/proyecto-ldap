@@ -109,7 +109,7 @@ jobs:
         run: |
           ssh -i deploy_key.pem -o StrictHostKeyChecking=no ubuntu@${{ needs.despliegue.outputs.instance_public_ip }} << 'EOF'
             chmod +x /home/ubuntu/instalar-docker.sh
-            /home/ubuntu/mi_script.sh
+            /home/ubuntu/instalar-docker.sh
             aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ needs.despliegue.outputs.ecr_repository_uri_url }}
             docker build -t ldap-img -f ./Dockerfile.LDAP .
             docker run -d --network my-network --name ldap-container -p 636:636 -p 389:389 -e LDAP_ADMIN_PASSWORD="admin" ldap-img

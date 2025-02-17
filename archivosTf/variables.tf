@@ -28,7 +28,7 @@ variable "s3"{
   type = string
 }
 
-variable "ecr"{
+/* variable "ecr"{
     description = "nombre del repositorio ecr"
     type = string
-}
+} */

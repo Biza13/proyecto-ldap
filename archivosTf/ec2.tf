@@ -37,7 +37,7 @@ resource "aws_instance" "instancia" {
   connection {
     type        = "ssh"
     user        = "ubuntu" 
-    private_key = file("C:/Users/serra/.ssh/deployer-key")
+    private_key = file("C:/Users/serra/.ssh/deployer-key.pem")
     host        = self.public_ip
   }
 

@@ -109,6 +109,8 @@ jobs:
       - name: entrar en la instancia y logearme en aws
         run: |
           ssh -i deploy_key.pem -o StrictHostKeyChecking=no ubuntu@${{ needs.despliegue.outputs.instance_public_ip }} << 'EOF'
+            export PATH=$PATH:/usr/bin
+            echo "PATH=$PATH"
             sleep 30
             sudo docker build -t ldap-img -f ./Dockerfile.LDAP .
             sudo docker run -d --network my-network --name ldap-container -p 636:636 -p 389:389 -e LDAP_ADMIN_PASSWORD="admin" ldap-img

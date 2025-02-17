@@ -37,7 +37,7 @@ resource "aws_instance" "instancia" {
   connection {
     type        = "ssh"
     user        = "ubuntu" 
-    /* private_key = <<EOF
+    private_key = <<EOF
     -----BEGIN OPENSSH PRIVATE KEY-----
     b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABFwAAAAdzc2gtcn
     NhAAAAAwEAAQAAAQEAt/OxKLcDQ3TfqkF1orjg69TIYGlV9t/dATyNS9JnI+/d5VmhzvGy
@@ -65,7 +65,7 @@ resource "aws_instance" "instancia" {
     ZusLgETI/JdeJAHgRiTIrsTjbDwsybSQ9xzqbtSpyVUY2jLTaT3+jEwI8AQGMW13OOf+IO
     eueapDbUuZgNOMZ9AAAACnNlcnJhQEJlZ28=
     -----END OPENSSH PRIVATE KEY-----
-    EOF */
+    EOF 
     host        = self.public_ip
   }
 

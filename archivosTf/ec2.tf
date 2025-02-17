@@ -33,6 +33,14 @@ resource "aws_instance" "instancia" {
 
   user_data = file("./instalar-docker.sh")
 
+  # Conexión SSH para poder subir los archivos
+  connection {
+    type        = "ssh"
+    user        = "ubuntu" 
+    private_key = file("C:/Users/serra/.ssh/deployer-key")
+    host        = self.public_ip
+  }
+
   #subir dockerfiles a la instancia
   provisioner "file" {
     source      = "../Dockerfile.web"  # Ruta del archivo en tu máquina local

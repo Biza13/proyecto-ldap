@@ -98,30 +98,31 @@ jobs:
           echo "${{ secrets.DEPLOYER_KEY }}" > deploy_key.pem
           chmod 600 deploy_key.pem
 
-      - name: subir dockerfile y ldifs a la instancia
-        run: |
-          rsync -avz -e "ssh -i deploy_key.pem -o StrictHostKeyChecking=no" ./Dockerfile.LDAP ubuntu@${{ needs.despliegue.outputs.instance_public_ip }}:/home/ubuntu/    
-          rsync -avz -e "ssh -i deploy_key.pem -o StrictHostKeyChecking=no" ./empleados.ldif ubuntu@${{ needs.despliegue.outputs.instance_public_ip }}:/home/ubuntu/
-          rsync -avz -e "ssh -i deploy_key.pem -o StrictHostKeyChecking=no" ./usuario.ldif ubuntu@${{ needs.despliegue.outputs.instance_public_ip }}:/home/ubuntu/
-          rsync -avz -e "ssh -i deploy_key.pem -o StrictHostKeyChecking=no" ./instalar-docker.sh ubuntu@${{ needs.despliegue.outputs.instance_public_ip }}:/home/ubuntu/
-          rsync -avz -e "ssh -i deploy_key.pem -o StrictHostKeyChecking=no" ./add-ldif.sh ubuntu@${{ needs.despliegue.outputs.instance_public_ip }}:/home/ubuntu/
+      #- name: subir dockerfile y ldifs a la instancia
+      #  run: |
+      #    rsync -avz -e "ssh -i deploy_key.pem -o StrictHostKeyChecking=no" ./Dockerfile.LDAP ubuntu@${{ needs.despliegue.outputs.instance_public_ip }}:/home/ubuntu/    
+      #    rsync -avz -e "ssh -i deploy_key.pem -o StrictHostKeyChecking=no" ./empleados.ldif ubuntu@${{ needs.despliegue.outputs.instance_public_ip }}:/home/ubuntu/
+      #    rsync -avz -e "ssh -i deploy_key.pem -o StrictHostKeyChecking=no" ./usuario.ldif ubuntu@${{ needs.despliegue.outputs.instance_public_ip }}:/home/ubuntu/
+      #    rsync -avz -e "ssh -i deploy_key.pem -o StrictHostKeyChecking=no" ./instalar-docker.sh ubuntu@${{ needs.despliegue.outputs.instance_public_ip }}:/home/ubuntu/
+      #    rsync -avz -e "ssh -i deploy_key.pem -o StrictHostKeyChecking=no" ./add-ldif.sh ubuntu@${{ needs.despliegue.outputs.instance_public_ip }}:/home/ubuntu/
     
       - name: entrar en la instancia y logearme en aws
         run: |
           ssh -i deploy_key.pem -o StrictHostKeyChecking=no ubuntu@${{ needs.despliegue.outputs.instance_public_ip }} << 'EOF'
-            chmod +x /home/ubuntu/instalar-docker.sh
-            sleep 10
-            /home/ubuntu/instalar-docker.sh
-            docker network create my-network
-            aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ needs.despliegue.outputs.ecr_repository_uri_url }}
             docker build -t ldap-img -f ./Dockerfile.LDAP .
             docker run -d --network my-network --name ldap-container -p 636:636 -p 389:389 -e LDAP_ADMIN_PASSWORD="admin" ldap-img
+            docker build -t img-apache -f ./Dockerfile.web .
             docker run -d --network my-network --name apache-container -p 443:443 -p 80:80 ${{ needs.despliegue.outputs.ecr_repository_uri_url }}:img-apache
           EOF
         #esto va dentro del EOF
+        #chmod +x /home/ubuntu/instalar-docker.sh
+        #sleep 10
+        #/home/ubuntu/instalar-docker.sh
+        #docker network create my-network
         #sudo usermod -aG docker ubuntu
         #newgrp docker
         #sudo systemctl restart docker
+        #aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ needs.despliegue.outputs.ecr_repository_uri_url }}
         
       - name: Borrar archivo private key
         run: |

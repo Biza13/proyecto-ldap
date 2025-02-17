@@ -110,10 +110,10 @@ jobs:
         run: |
           ssh -i deploy_key.pem -o StrictHostKeyChecking=no ubuntu@${{ needs.despliegue.outputs.instance_public_ip }} << 'EOF'
             sleep 30
-            docker build -t ldap-img -f ./Dockerfile.LDAP .
-            docker run -d --network my-network --name ldap-container -p 636:636 -p 389:389 -e LDAP_ADMIN_PASSWORD="admin" ldap-img
-            docker build -t img-apache -f ./Dockerfile.web .
-            docker run -d --network my-network --name apache-container -p 443:443 -p 80:80 ${{ needs.despliegue.outputs.ecr_repository_uri_url }}:img-apache
+            sudo docker build -t ldap-img -f ./Dockerfile.LDAP .
+            sudo docker run -d --network my-network --name ldap-container -p 636:636 -p 389:389 -e LDAP_ADMIN_PASSWORD="admin" ldap-img
+            sudo docker build -t img-apache -f ./Dockerfile.web .
+            sudo docker run -d --network my-network --name apache-container -p 443:443 -p 80:80 img-apache
           EOF
         #esto va dentro del EOF
         #chmod +x /home/ubuntu/instalar-docker.sh

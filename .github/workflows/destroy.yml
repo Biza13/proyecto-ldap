@@ -28,10 +28,10 @@ jobs:
       working-directory: ./archivosTf
 
     #eliminar imagenes del ecr
-    - name: Eliminar imágenes específicas en ECR
-      run: |
-       aws ecr batch-delete-image --repository-name ${{ secrets.AWS_ECR }} --image-ids imageTag=img-apache --region us-east-1
-       aws ecr batch-delete-image --repository-name ${{ secrets.AWS_ECR }} --image-ids imageTag=img-ldap --region us-east-1
+    #- name: Eliminar imágenes específicas en ECR
+    #  run: |
+    #   aws ecr batch-delete-image --repository-name ${{ secrets.AWS_ECR }} --image-ids imageTag=img-apache --region us-east-1
+    #   aws ecr batch-delete-image --repository-name ${{ secrets.AWS_ECR }} --image-ids imageTag=img-ldap --region us-east-1
 
     #eliminar el tfstate del bucket
     - name: Eliminar los archivos en S3

@@ -58,6 +58,11 @@ resource "aws_instance" "instancia" {
   }
 
   provisioner "file" {
+    source      = "../add-ldif.sh"
+    destination = "/home/ubuntu/add-ldif.sh"
+  }
+
+  provisioner "file" {
     source      = "../usuario.ldif"
     destination = "/home/ubuntu/usuario.ldif"
   }
@@ -65,6 +70,16 @@ resource "aws_instance" "instancia" {
   provisioner "file" {
     source      = "../000-default.conf"
     destination = "/home/ubuntu/000-default.conf"
+  }
+
+  provisioner "file" {
+    source      = "../index.html"
+    destination = "/home/ubuntu/index.html"
+  }
+
+  provisioner "file" {
+    source      = "../ProyectoEnSASS-Restaurante"
+    destination = "/home/ubuntu/ProyectoEnSASS-Restaurante"
   }
 
   provisioner "file" {

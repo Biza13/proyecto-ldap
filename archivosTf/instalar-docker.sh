@@ -27,4 +27,4 @@ sudo systemctl enable docker
 sudo usermod -aG docker ubuntu
 
 # Crear una red de Docker llamada "my_network"
-sudo docker network create my_network
+sudo docker network create my-network

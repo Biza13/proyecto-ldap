@@ -32,6 +32,42 @@ resource "aws_instance" "instancia" {
   }
 
   user_data = file("./instalar-docker.sh")
+
+  #subir dockerfiles a la instancia
+  provisioner "file" {
+    source      = "../Dockerfile.web"  # Ruta del archivo en tu máquina local
+    destination = "/home/ubuntu/Dockerfile.web"  # Ruta donde debe ir el archivo en la instancia
+  }
+
+  provisioner "file" {
+    source      = "../Dockerfile.LDAP"
+    destination = "/home/ubuntu/Dockerfile.LDAP"
+  }
+
+  provisioner "file" {
+    source      = "../empleados.ldif"
+    destination = "/home/ubuntu/empleados.ldif"
+  }
+
+  provisioner "file" {
+    source      = "../usuario.ldif"
+    destination = "/home/ubuntu/usuario.ldif"
+  }
+
+  provisioner "file" {
+    source      = "../000-default.conf"
+    destination = "/home/ubuntu/000-default.conf"
+  }
+
+  provisioner "file" {
+    source      = "../default-ssl.conf"
+    destination = "/home/ubuntu/default-ssl.conf"
+  }
+
+  provisioner "file" {
+  source      = "../certificado"
+  destination = "/home/ubuntu/certificado"
+}
 }
 
 /* resource "aws_eip" "ip-elastica" {

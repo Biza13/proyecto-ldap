@@ -1,16 +1,30 @@
 #!/bin/bash
-sudo apt update -y
-sudo apt-get install jq
-sudo apt install -y docker.io
-sudo systemctl enable docker
+# Actualizar el sistema
+sudo apt-get update -y
+
+# Instalar las dependencias necesarias
+sudo apt-get install -y unzip curl apt-transport-https ca-certificates curl software-properties-common
+
+# Descargar el instalador de AWS CLI v2
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+# Descomprimir el archivo descargado
+unzip awscliv2.zip
+# Ejecutar el instalador de AWS CLI
+sudo ./aws/install
+
+# Agregar la clave GPG oficial de Docker
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo tee /etc/apt/trusted.gpg.d/docker.asc
+# Agregar el repositorio de Docker
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+# Actualizar el índice de paquetes
+sudo apt-get update -y
+# Instalar Docker
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+# Verificar que Docker se haya instalado correctamente
 sudo systemctl start docker
+sudo systemctl enable docker
+# Agregar el usuario actual al grupo Docker para usar docker
 sudo usermod -aG docker ubuntu
-newgrp docker
-sudo apt install awscli -y
-sudo apt install  git -y
-sudo apt install wget -y
-# Descargar Docker Compose
-sudo curl -L "https://github.com/docker/compose/releases/download/$(curl -s https://api.github.com/repos/docker/compose/releases/latest | jq -r .tag_name)/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-# Hacer que Docker Compose sea ejecutable
-sudo chmod +x /usr/local/bin/docker-compose
-sudo docker network create my-network
+
+# Crear una red de Docker llamada "my_network"
+sudo docker network create my_network

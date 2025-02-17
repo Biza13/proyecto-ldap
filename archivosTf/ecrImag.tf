@@ -1,15 +1,15 @@
 #creamos el repositorio ecr
-resource "aws_ecr_repository" "repositorio_ecr" {
+/* resource "aws_ecr_repository" "repositorio_ecr" {
   name = var.ecr
 
   tags = {
     "Name"        = "repositorio"
     "Environment" = "Production"
   }
-}
+} */
 
 #recurso para hacer el build y el push de las imagenes al repositorio ecr
-resource "null_resource" "crear-y-subir-imagenes" {
+/* resource "null_resource" "crear-y-subir-imagenes" {
   depends_on = [aws_ecr_repository.repositorio_ecr]
 
   provisioner "local-exec" {
@@ -23,7 +23,7 @@ resource "null_resource" "crear-y-subir-imagenes" {
 
     EOT
   }
-}
+} */
 
 /* docker build --no-cache -t img-apache -f ./Dockerfile .
 docker tag img-apache:latest ${aws_ecr_repository.repositorio_ecr.repository_url}:img-apache
@@ -35,9 +35,9 @@ docker push ${aws_ecr_repository.repositorio_ecr.repository_url}:img-apache */
       docker push ${aws_ecr_repository.repositorio_ecr.repository_url}:img-ldap */
 
 # Referencia al rol IAM existente en mi cuenta de aws que es (LabRole) usando su ARN
-data "aws_iam_role" "labrole" {
+/* data "aws_iam_role" "labrole" {
   name = "LabRole"
-}
+} */
 
 # Crear el perfil de IAM para la instancia EC2
 /* resource "aws_iam_instance_profile" "ecs_instance_profile" {

@@ -53,6 +53,11 @@ resource "aws_instance" "instancia" {
   }
 
   provisioner "file" {
+    source      = "../crearContenedores.sh"
+    destination = "/home/ubuntu/crearContenedores.sh"
+  }
+
+  provisioner "file" {
     source      = "../empleados.ldif"
     destination = "/home/ubuntu/empleados.ldif"
   }

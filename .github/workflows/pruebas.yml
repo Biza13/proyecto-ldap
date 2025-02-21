@@ -103,7 +103,7 @@ jobs:
           ssh -i deploy_key.pem -o StrictHostKeyChecking=no ubuntu@${{ needs.despliegue.outputs.instance_public_ip }} << 'EOF'
             chmod +x crearContenedores.sh
             sudo ./crearContenedores.sh
-            sudo docker exec -it ldap-container /bin/bash -c "bash /add-ldif.sh"
+            sudo docker exec ldap-container /bin/bash -c "bash /add-ldif.sh"
           EOF
         
       - name: Borrar archivo private key

@@ -1,4 +1,5 @@
-FROM osixia/openldap:latest
+#FROM osixia/openldap:latest
+FROM osixia/openldap:1.5.0
 
 # Variables de entorno para ldap
 ENV LDAP_ORGANISATION="MiRestaurante"

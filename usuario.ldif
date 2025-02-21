@@ -1,6 +1,6 @@
-dn: uid=Begona,ou=empleados,dc=begona,dc=work,dc=gd
+dn: uid=admin,ou=empleados,dc=begona,dc=work,dc=gd
 objectClass: inetOrgPerson
-cn: Begona
-sn: Cabo
-uid: Begona
-userPassword: {SSHA}AJ2xzDY2agpeviICmpKsGPFb7y5O6q6Q
+cn: admin
+sn: Bego
+uid: admin
+userPassword: admin

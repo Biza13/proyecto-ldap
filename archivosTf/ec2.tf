@@ -31,8 +31,7 @@ resource "aws_instance" "instancia" {
     Name = "instancia"
   }
 
-  #user_data = file("./instalar-docker.sh")
-  user_data = file("./pruebaErik.sh")
+  user_data = file("./instalar-docker.sh")
 
   # Conexión SSH para poder subir los archivos
   connection {

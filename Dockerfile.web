@@ -32,7 +32,7 @@ RUN chown -R www-data:www-data /var/www/html/ProyectoEnSASS-Restaurante && \
     chmod -R 755 /var/www/html/ProyectoEnSASS-Restaurante
 
 # Expone el puerto 443 para Apache que es el https y el 3000 para el json y el 80 para la redireccion
-EXPOSE 443
+#EXPOSE 443
 EXPOSE 80
 
 #lanzamos aqui el apache

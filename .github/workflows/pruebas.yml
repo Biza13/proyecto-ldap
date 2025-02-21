@@ -62,15 +62,15 @@ jobs:
         run: echo "bucket_nombre=$(terraform output -raw s3)" >> "$GITHUB_OUTPUT"
         working-directory: ./archivosTf
 
-      - name: Capturar URI del repositorio ECR
-        id: capturar_ecr_uri_url
-        run: echo "ecr_repository_uri_url=$(terraform output -raw ecr_repository_uri_url)" >> "$GITHUB_OUTPUT"
-        working-directory: ./archivosTf
+      #- name: Capturar URI del repositorio ECR
+      #  id: capturar_ecr_uri_url
+      #  run: echo "ecr_repository_uri_url=$(terraform output -raw ecr_repository_uri_url)" >> "$GITHUB_OUTPUT"
+      #  working-directory: ./archivosTf
 
-      - name: Capturar nombre del repositorio ECR
-        id: capturar_ecr_nombre
-        run: echo "ecr_nombre_repositorio=$(terraform output -raw ecr_nombre_repositorio)" >> "$GITHUB_OUTPUT"
-        working-directory: ./archivosTf 
+      #- name: Capturar nombre del repositorio ECR
+      #  id: capturar_ecr_nombre
+      #  run: echo "ecr_nombre_repositorio=$(terraform output -raw ecr_nombre_repositorio)" >> "$GITHUB_OUTPUT"
+      #  working-directory: ./archivosTf 
 
       - name: Capturar ip de la EC2
         id: capturar_ip_ec2
@@ -97,30 +97,14 @@ jobs:
         run: |
           echo "${{ secrets.DEPLOYER_KEY }}" > deploy_key.pem
           chmod 600 deploy_key.pem
-
-      #- name: subir dockerfile y ldifs a la instancia
-      #  run: |
-      #    rsync -avz -e "ssh -i deploy_key.pem -o StrictHostKeyChecking=no" ./Dockerfile.LDAP ubuntu@${{ needs.despliegue.outputs.instance_public_ip }}:/home/ubuntu/    
-      #    rsync -avz -e "ssh -i deploy_key.pem -o StrictHostKeyChecking=no" ./empleados.ldif ubuntu@${{ needs.despliegue.outputs.instance_public_ip }}:/home/ubuntu/
-      #    rsync -avz -e "ssh -i deploy_key.pem -o StrictHostKeyChecking=no" ./usuario.ldif ubuntu@${{ needs.despliegue.outputs.instance_public_ip }}:/home/ubuntu/
-      #    rsync -avz -e "ssh -i deploy_key.pem -o StrictHostKeyChecking=no" ./instalar-docker.sh ubuntu@${{ needs.despliegue.outputs.instance_public_ip }}:/home/ubuntu/
-      #    rsync -avz -e "ssh -i deploy_key.pem -o StrictHostKeyChecking=no" ./add-ldif.sh ubuntu@${{ needs.despliegue.outputs.instance_public_ip }}:/home/ubuntu/
-    
+          
       - name: entrar en la instancia y logearme en aws
         run: |
           ssh -i deploy_key.pem -o StrictHostKeyChecking=no ubuntu@${{ needs.despliegue.outputs.instance_public_ip }} << 'EOF'
             chmod +x crearContenedores.sh
             sudo ./crearContenedores.sh
+            sudo docker exec -it ldap-container /bin/bash -c "bash /add-ldif.sh"
           EOF
-        #esto va dentro del EOF
-        #chmod +x /home/ubuntu/instalar-docker.sh
-        #sleep 10
-        #/home/ubuntu/instalar-docker.sh
-        #docker network create my-network
-        #sudo usermod -aG docker ubuntu
-        #newgrp docker
-        #sudo systemctl restart docker
-        #aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ needs.despliegue.outputs.ecr_repository_uri_url }}
         
       - name: Borrar archivo private key
         run: |

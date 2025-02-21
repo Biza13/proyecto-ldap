@@ -23,9 +23,6 @@ COPY ./000-default.conf /etc/apache2/sites-available/000-default.conf
 
 # habilitar SSL y el ldap  (modulos)
 RUN a2enmod ssl && \
-    a2enmod proxy && \
-    a2enmod proxy_http && \
-    a2enmod proxy_ftp && \
     a2ensite default-ssl.conf && \
     a2enmod authnz_ldap ldap && \
     a2enmod rewrite

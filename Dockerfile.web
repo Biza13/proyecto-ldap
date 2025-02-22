@@ -25,7 +25,7 @@ COPY ./000-default.conf /etc/apache2/sites-available/000-default.conf
 RUN a2enmod ssl && \
     a2ensite default-ssl.conf && \
     a2enmod authnz_ldap && \
-    a2dismod -f auth_basic && \
+    a2enmod auth_basic && \
     a2enmod rewrite
 
 # dar permisos a las carpetas 

@@ -3,8 +3,6 @@ FROM ubuntu/apache2:latest
 RUN apt update -y && \
 #instalar ldap utils y open ssl
 apt install -y ldap-utils openssl && \
-#instalar el ping para pruebas
-apt install iputils-ping && \
 # Limpiar los archivos de cache de apt para reducir el tamaño de la imagen
 apt clean
 
